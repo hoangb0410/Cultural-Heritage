@@ -33,7 +33,15 @@ const siteController = {
       res.status(500).json(err);
     }
   },
-  // Delete user
+  // Delete site
+  deleteSite: async (req, res) => {
+    try {
+      const site = await Site.findByIdAndDelete(req.params.id);
+      res.status(200).json("Delete successful!");
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 };
 
 module.exports = siteController;

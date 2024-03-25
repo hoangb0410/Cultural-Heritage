@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const postSchema = new mongoose.Schema(
+const eventSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true, max: 100, unique: true },
-    content: { type: String, required: true, max: 1000 },
+    event_name: { type: String, required: true, max: 100, unique: true },
+    event_date: { type: Date, required: true },
     image: [
       {
         image_name: { type: String, required: true },
@@ -11,10 +11,10 @@ const postSchema = new mongoose.Schema(
         description: { type: String, required: true },
       },
     ],
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    content: { type: String, required: true, max:1000 },
     site: { type: mongoose.Schema.Types.ObjectId, ref: 'Site'}
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("Event", eventSchema);

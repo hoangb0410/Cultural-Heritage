@@ -25,7 +25,7 @@ const middlewareController = {
                 next();
             }
             else {
-                return res.status(403).json("You're not allowed to delete others");
+                return res.status(403).json("You're not allowed to delete");
             }
         });
     }

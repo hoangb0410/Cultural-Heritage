@@ -6,26 +6,6 @@ const bcrypt = require("bcrypt");
 let refreshTokens = [];
 
 const authController = {
-    //Register
-    registerUser: async (req, res) => {
-    try {
-        const salt = await bcrypt.genSalt(10);
-        const hashed = await bcrypt.hash(req.body.password, salt);
-
-        //Create new user
-        const newUser = await new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: hashed,
-        });
-
-        //Save user to DB
-        const user = await newUser.save();
-        res.status(200).json(user);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-    },
     // Generate access token
     generateAccessToken: (user) => {
         return jwt.sign({
@@ -33,7 +13,7 @@ const authController = {
             isAdmin: user.isAdmin, // check if admin
         },
         process.env.JWT_ACCESS_KEY,
-        {expiresIn: "20s"}
+        {expiresIn: "20d"}
         );
     },
     // Generate refresh token

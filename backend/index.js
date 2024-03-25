@@ -7,8 +7,8 @@ const cookieParser = require("cookie-parser");
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const siteRoute = require("./routes/site");
-const Site = require("./models/Site");
-
+const postRoute = require("./routes/post");
+const eventRoute = require("./routes/event");
 const app = express();
 
 dotenv.config();
@@ -27,7 +27,8 @@ app.use(express.json());
 app.use("/v1/auth", authRoute);
 app.use("/v1/user", userRoute);
 app.use("/v1/site", siteRoute);
-
+app.use("/v1/post", postRoute);
+app.use("/v1/event", eventRoute);
 app.listen(8000, () => {
   console.log("Server is running");
 });
