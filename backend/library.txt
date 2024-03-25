@@ -1,5 +1,2 @@
 npm init
 npm install express mongoose cors dotenv bcrypt cookie-parser jsonwebtoken
-
-viethoangb0410
-vPxYRSwK6p1zvETO
