@@ -4,14 +4,15 @@ const siteController = {
   // Create Site
   createSite: async (req, res) => {
     try {
+      const {site_name, province_name, region, address, map_diagram, image} = req.body;
       // Create new Site
       const newSite = new Site({
-        site_name: req.body.site_name,
-        province_name: req.body.province_name,
-        region: req.body.region,
-        address: req.body.address,
-        map_diagram: req.body.map_diagram,
-        image: req.body.image.map((img) => ({
+        site_name,
+        province_name,
+        region,
+        address,
+        map_diagram,
+        image: image.map((img) => ({
           image_name: img.image_name,
           image_link: img.image_link,
           description: img.description,
