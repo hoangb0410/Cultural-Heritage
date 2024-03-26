@@ -1,5 +1,5 @@
 const inquiryController = require("../controllers/inquiryController");
-const middlewareController = require("../controllers/middlewareController");
+const middlewareController = require("../middleware/middlewareController");
 
 const router = require("express").Router();
 // Create event
