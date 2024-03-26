@@ -13,7 +13,7 @@ const authController = {
             isAdmin: user.isAdmin, // check if admin
         },
         process.env.JWT_ACCESS_KEY,
-        {expiresIn: "20d"}
+        {expiresIn: "1d"}
         );
     },
     // Generate refresh token
