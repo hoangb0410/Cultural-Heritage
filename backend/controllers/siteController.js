@@ -34,6 +34,27 @@ const siteController = {
       res.status(500).json(err);
     }
   },
+  // Update site
+  updateSite: async (req, res) => {
+    try {
+      // Validate site ID
+      const {id} = req.params;
+      if (!id) {
+        return res.status(400).json({ message: 'Invalid site ID' });
+      }
+      const updateData = req.body;
+      // Update user in the database
+      const updatedSite = await Site.findByIdAndUpdate(id, { $set: updateData }, { new: true });
+      // Check if the user was found and updated
+      if (!updatedSite) {
+        return res.status(404).json({ message: "Site not found" });
+      }
+      res.status(200).json(updatedSite);
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+    }
+  },
   // Delete site
   deleteSite: async (req, res) => {
     try {
