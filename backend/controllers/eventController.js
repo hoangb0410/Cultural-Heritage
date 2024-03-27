@@ -4,17 +4,18 @@ const eventController = {
   // Create Event
   createEvent: async (req, res) => {
     try {
+      const {event_name, event_date, content, site, image} = req.body;
       // Create new Post
       const newEvent = new Event({
-        event_name: req.body.event_name,
-        event_date: req.body.event_date,
-        image: req.body.image.map((img) => ({
+        event_name,
+        event_date,
+        image: image.map((img) => ({
           image_name: img.image_name,
           image_link: img.image_link,
           description: img.description,
         })),
-        content: req.body.content,
-        site: req.body.site
+        content,
+        site
       });
       const event = await newEvent.save();
       res.status(200).json(event);
