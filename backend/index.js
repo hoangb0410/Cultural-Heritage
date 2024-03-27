@@ -32,5 +32,5 @@ app.use("/v1/post", postRoute);
 app.use("/v1/event", eventRoute);
 app.use("/v1/inquiry", inquiryRoute);
 app.listen(8000, () => {
-  console.log("Server is running");
+  console.log("Server is running on port 8000");
 });
