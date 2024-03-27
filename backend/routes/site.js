@@ -1,5 +1,5 @@
 const siteController = require("../controllers/siteController");
-const middlewareController = require("../controllers/middlewareController");
+const middlewareController = require("../middleware/middlewareController");
 
 const router = require("express").Router();
 // Create historical site

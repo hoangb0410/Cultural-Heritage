@@ -9,6 +9,7 @@ const userRoute = require("./routes/user");
 const siteRoute = require("./routes/site");
 const postRoute = require("./routes/post");
 const eventRoute = require("./routes/event");
+const inquiryRoute = require("./routes/inquiry");
 const app = express();
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use("/v1/user", userRoute);
 app.use("/v1/site", siteRoute);
 app.use("/v1/post", postRoute);
 app.use("/v1/event", eventRoute);
+app.use("/v1/inquiry", inquiryRoute);
 app.listen(8000, () => {
   console.log("Server is running");
 });
