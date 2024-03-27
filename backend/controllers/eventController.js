@@ -4,6 +4,7 @@ const eventController = {
   // Create Event
   createEvent: async (req, res) => {
     try {
+      const {event_name, event_date, image, content, site} = req.body;
       // Create new Post
       const newEvent = new Event({
         event_name,
