@@ -12,7 +12,12 @@ const postSchema = new mongoose.Schema(
       },
     ],
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    site: { type: mongoose.Schema.Types.ObjectId, ref: 'Site'}
+    site: { type: mongoose.Schema.Types.ObjectId, ref: 'Site'},
+    status: { 
+      type: String, 
+      enum: ['wait', 'approved', 'rejected'], 
+      default: 'wait' 
+    }
   },
   { timestamps: true }
 );

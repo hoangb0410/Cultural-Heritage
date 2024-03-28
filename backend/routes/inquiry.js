@@ -7,8 +7,8 @@ router.post("/createInquiry", inquiryController.createInquiry);
 // Get all inquiries
 router.get("/", middlewareController.verifyToken, inquiryController.getAllInquiries);
 // Update inquiry
-router.put("/update/:id",middlewareController.verifyTokenAndAdminAuth, inquiryController.updateInquiry);
+router.put("/update/:id",middlewareController.verifyTokenAndUserOrAdminAuth, inquiryController.updateInquiry);
 // Delete inquiry
-router.delete("/:id",middlewareController.verifyTokenAndAdminAuth, inquiryController.deleteInquiry);
+router.delete("/:id",middlewareController.verifyTokenAndUserOrAdminAuth, inquiryController.deleteInquiry);
 
 module.exports = router;

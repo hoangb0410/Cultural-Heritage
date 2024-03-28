@@ -3,7 +3,7 @@ const middlewareController = require("../middleware/middlewareController");
 
 const router = require("express").Router();
 // Create historical site
-router.post("/createSite", siteController.createSite);
+router.post("/createSite",middlewareController.verifyTokenAndAdminAuth, siteController.createSite);
 // Get all sites
 router.get("/",middlewareController.verifyToken, siteController.getAllSites);
 // Update site

@@ -34,6 +34,7 @@ const userController = {
   // Update user
   updateUser: async (req, res) => {
     try {
+      const currentUser = req.user;
       // Validate user ID
       const {id} = req.params;
       if (!id) {
@@ -43,7 +44,10 @@ const userController = {
       const updateData = {};
       updateData.username = username;
       updateData.email = email;
-      updateData.isAdmin = isAdmin;
+      // Only admin can edit isAdmin property
+      if (currentUser.isAdmin){
+        updateData.isAdmin = isAdmin;
+      }
       if (req.body.password){
         const salt = await bcrypt.genSalt(10);
         const hashed = await bcrypt.hash(req.body.password, salt);
