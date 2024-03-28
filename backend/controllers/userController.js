@@ -39,13 +39,16 @@ const userController = {
       if (!id) {
         return res.status(400).json({ message: 'Invalid user ID' });
       }
-      const salt = await bcrypt.genSalt(10);
-      const {username, email} = req.body;
-      const hashed = await bcrypt.hash(req.body.password, salt);
+      const {username, email, isAdmin} = req.body;
       const updateData = {};
       updateData.username = username;
       updateData.email = email;
-      updateData.password = hashed;
+      updateData.isAdmin = isAdmin;
+      if (req.body.password){
+        const salt = await bcrypt.genSalt(10);
+        const hashed = await bcrypt.hash(req.body.password, salt);
+        updateData.password = hashed;
+      }
       // Update user in the database
       const updatedUser = await User.findByIdAndUpdate(id, { $set: updateData }, { new: true });
       // Check if the user was found and updated
