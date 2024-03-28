@@ -8,7 +8,7 @@ const eventSchema = new mongoose.Schema(
       {
         image_name: { type: String, required: true },
         image_link: { type: String, required: true },
-        description: { type: String, required: true },
+        description: { type: String},
       },
     ],
     content: { type: String, required: true, max:1000 },
