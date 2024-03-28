@@ -33,6 +33,27 @@ const eventController = {
       res.status(500).json(err);
     }
   },
+  // Update event
+  updateEvent: async (req, res) => {
+    try {
+      // Validate event ID
+      const {id} = req.params;
+      if (!id) {
+        return res.status(400).json({ message: 'Invalid event ID' });
+      }
+      const updateData = req.body;
+      // Update event in the database
+      const updatedEvent = await Event.findByIdAndUpdate(id, { $set: updateData }, { new: true });
+      // Check if the event was found and updated
+      if (!updatedEvent) {
+        return res.status(404).json({ message: "Event not found" });
+      }
+      res.status(200).json(updatedEvent);
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+    }
+  },
   // Delete post
   deleteEvent: async (req, res) => {
     try {
