@@ -9,6 +9,6 @@ router.get("/", middlewareController.verifyToken, postController.getAllPosts);
 // Update post
 router.put("/update/:id",middlewareController.verifyTokenAndAuthorOrAdminPost, postController.updatePost);
 // Delete post
-router.delete("/:id",middlewareController.verifyTokenAndUserOrAdminAuth,postController.deletePost);
+router.delete("/:id",middlewareController.verifyTokenAndAuthorOrAdminPost,postController.deletePost);
 
 module.exports = router;

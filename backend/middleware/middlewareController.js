@@ -55,7 +55,7 @@ const middlewareController = {
                 if (post && (post.author.toString() == req.user.id || req.user.isAdmin)){
                     next();
                 } else {
-                    return res.status(403).json("You're not authorized to update this post.");
+                    return res.status(403).json("You do not have permission!");
                 }
             })
             .catch((err) => {
