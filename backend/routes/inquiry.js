@@ -6,6 +6,8 @@ const router = require("express").Router();
 router.post("/createInquiry", inquiryController.createInquiry);
 // Get all inquiries
 router.get("/", middlewareController.verifyTokenAndAdminAuth, inquiryController.getAllInquiries);
+// Update inquiry
+router.put("/update/:id",middlewareController.verifyTokenAndAdminAuth, inquiryController.updateInquiry);
 // Delete inquiry
 router.delete("/:id",middlewareController.verifyTokenAndAdminAuth, inquiryController.deleteInquiry);
 
