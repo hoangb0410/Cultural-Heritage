@@ -6,7 +6,11 @@ const inquirySchema = new mongoose.Schema(
     email: { type: String, required: true },
     subject: { type: String, required: true, max: 50, unique: true },
     content: { type: String, required: true, max:1000 },
-    status: {type: String, default: "wait"}
+    status: {
+      type: String, 
+      enum: ['wait', 'viewed'],
+      default: "wait"
+    }
   },
   { timestamps: true }
 );

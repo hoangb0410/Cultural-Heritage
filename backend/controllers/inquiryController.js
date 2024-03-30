@@ -29,27 +29,6 @@ const inquiryController = {
       res.status(500).json(err);
     }
   },
-  // Update inquiry
-  updateInquiry: async (req, res) => {
-    try {
-      // Validate inquiry ID
-      const {id} = req.params;
-      if (!id) {
-        return res.status(400).json({ message: 'Invalid inquiry ID' });
-      }
-      const updateData = req.body;
-      // Update inquiry in the database
-      const updatedInquiry = await Inquiry.findByIdAndUpdate(id, { $set: updateData }, { new: true });
-      // Check if the inquiry was found and updated
-      if (!updatedInquiry) {
-        return res.status(404).json({ message: "Inquiry not found" });
-      }
-      res.status(200).json(updatedInquiry);
-    } catch (err) {
-      res.status(500).json(err);
-      console.log(err);
-    }
-  },
   // Delete inquiry
   deleteInquiry: async (req, res) => {
     try {
