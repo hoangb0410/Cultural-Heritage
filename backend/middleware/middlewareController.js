@@ -52,6 +52,9 @@ const middlewareController = {
             Post.findById(id)
             .then((post) => {
                 // Check if post exists and user is the author (or admin)
+                if (!post) {
+                    return res.status(404).json("Invalid post ID!");
+                }
                 if (post && (post.author.toString() == req.user.id || req.user.isAdmin)){
                     next();
                 } else {
