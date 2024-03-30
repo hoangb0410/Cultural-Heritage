@@ -5,7 +5,7 @@ const router = require("express").Router();
 // Create historical site
 router.post("/createSite",middlewareController.verifyTokenAndAdminAuth, siteController.createSite);
 // Get all sites
-router.get("/",middlewareController.verifyToken, siteController.getAllSites);
+router.get("/", siteController.getAllSites);
 // Update site
 router.put("/update/:id",middlewareController.verifyTokenAndAdminAuth, siteController.updateSite);
 // Delete site
