@@ -40,7 +40,20 @@ const postController = {
       if (!id) {
         return res.status(400).json({ message: 'Invalid post ID' });
       }
-      const updateData = req.body;
+
+      const {title, content, image, author, site, status} = req.body;
+
+      const updateData = {};
+      updateData.title = title;
+      updateData.content = content;
+      updateData.image = image;
+      updateData.author = author;
+      updateData.site = site;
+      if (req.user.isAdmin){
+        updateData.status = status;
+      } else {
+        return res.status(403).json("Only admin can edit status");
+      }
       // Update post in the database
       const updatedPost = await Post.findByIdAndUpdate(id, { $set: updateData }, { new: true });
       // Check if the post was found and updated
