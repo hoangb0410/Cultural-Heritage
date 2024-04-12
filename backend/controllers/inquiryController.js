@@ -4,7 +4,7 @@ const inquiryController = {
   // Create Inquiry
   createInquiry: async (req, res) => {
     try {
-      const {name, email, subject, content, status, date_created} = req.body;
+      const {name, email, subject, content, status} = req.body;
       // Create new Inquiry
       const newInquiry = new Inquiry({
         name,
