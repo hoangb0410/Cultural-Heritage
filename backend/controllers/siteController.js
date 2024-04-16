@@ -17,6 +17,7 @@ const siteController = {
           image_link: img.image_link,
           description: img.description,
         })),
+        author: req.user.id
       });
       const site = await newSite.save();
       res.status(200).json(site);
@@ -34,6 +35,15 @@ const siteController = {
       res.status(500).json(err);
     }
   },
+  // Get site by ID
+  getSite: async (req, res) => {
+    try {
+      const site = await Site.findById(req.params.id);
+      res.status(200).json(site);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
   // Update site
   updateSite: async (req, res) => {
     try {
@@ -42,7 +52,22 @@ const siteController = {
       if (!id) {
         return res.status(400).json({ message: 'Invalid site ID' });
       }
-      const updateData = req.body;
+      const {site_name, province_name, region, address, map_diagram, image, status} = req.body;
+      const updateData = {};
+      updateData.site_name = site_name;
+      updateData.province_name = province_name;
+      updateData.region = region;
+      updateData.address = address;
+      updateData.map_diagram = map_diagram;
+      updateData.image = image;
+      if (status) {
+        if (req.user.isAdmin){
+          updateData.status = status;
+        } else {
+          return res.status(403).json("Only admin can edit status");
+        }
+      }
+
       // Update user in the database
       const updatedSite = await Site.findByIdAndUpdate(id, { $set: updateData }, { new: true });
       // Check if the user was found and updated

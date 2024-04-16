@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Post = require("../models/Post");
+const Site = require("../models/Site")
 
 const middlewareController = {
     // verify token
@@ -41,7 +42,7 @@ const middlewareController = {
             }
         });
     },
-    // verifyTokenAndAuthor: middleware to restrict post updates to author
+    // verifyTokenAndAuthorPost: middleware to restrict post updates to author
     verifyTokenAndAuthorOrAdminPost: async (req, res, next) => {
         try {
         // Call verifyToken middleware to ensure valid JWT
@@ -56,6 +57,37 @@ const middlewareController = {
                     return res.status(404).json("Invalid post ID!");
                 }
                 if (post && (post.author.toString() == req.user.id || req.user.isAdmin)){
+                    next();
+                } else {
+                    return res.status(403).json("You do not have permission!");
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(500).json("Server error. Please try again later.");
+            });
+        });
+        } catch (err) {
+        // Handle errors from verifyToken if necessary (already handled in verifyToken)
+        console.error(err);
+        }
+    },
+
+    // verifyTokenAndAuthorSite: middleware to restrict site updates to author
+    verifyTokenAndAuthorOrAdminSite: async (req, res, next) => {
+        try {
+        // Call verifyToken middleware to ensure valid JWT
+        await middlewareController.verifyToken(req, res, () => {
+            // Extract post ID from request parameters
+            const { id } = req.params;
+            // Find the post by ID
+            Site.findById(id)
+            .then((site) => {
+                // Check if post exists and user is the author (or admin)
+                if (!site) {
+                    return res.status(404).json("Invalid site ID!");
+                }
+                if (site && (site.author.toString() == req.user.id || req.user.isAdmin)){
                     next();
                 } else {
                     return res.status(403).json("You do not have permission!");

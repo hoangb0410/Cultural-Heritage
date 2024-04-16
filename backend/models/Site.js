@@ -14,6 +14,12 @@ const siteSchema = new mongoose.Schema(
         description: { type: String},
       },
     ],
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    status: { 
+      type: String, 
+      enum: ['wait', 'approved', 'rejected'],
+      default: 'wait' 
+    }
   },
   { timestamps: true }
 );
