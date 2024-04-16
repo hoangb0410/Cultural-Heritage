@@ -6,6 +6,8 @@ const router = require("express").Router();
 router.post("/createPost",middlewareController.verifyToken, postController.createPost);
 // Get all posts
 router.get("/", postController.getAllPosts);
+// Get post by ID
+router.get("/:id", postController.getPost);
 // Update post
 router.put("/update/:id",middlewareController.verifyTokenAndAuthorOrAdminPost, postController.updatePost);
 // Delete post

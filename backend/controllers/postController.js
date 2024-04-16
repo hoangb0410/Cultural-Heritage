@@ -32,6 +32,15 @@ const postController = {
       res.status(500).json(err);
     }
   },
+  // Get post by ID
+  getPost: async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      res.status(200).json(post);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
   // Update post
   updatePost: async (req, res) => {
     try {
@@ -49,10 +58,12 @@ const postController = {
       updateData.image = image;
       updateData.author = author;
       updateData.site = site;
-      if (req.user.isAdmin){
-        updateData.status = status;
-      } else {
-        return res.status(403).json("Only admin can edit status");
+      if (status) {
+        if (req.user.isAdmin){
+          updateData.status = status;
+        } else {
+          return res.status(403).json("Only admin can edit status");
+        }
       }
       // Update post in the database
       const updatedPost = await Post.findByIdAndUpdate(id, { $set: updateData }, { new: true });
