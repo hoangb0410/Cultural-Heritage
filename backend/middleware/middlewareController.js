@@ -116,7 +116,7 @@ const middlewareController = {
             .then((event) => {
                 // Check if post exists and user is the author (or admin)
                 if (!event) {
-                    return res.status(404).json("Invalid site ID!");
+                    return res.status(404).json("Invalid event ID!");
                 }
                 if (event && (event.author.toString() == req.user.id || req.user.isAdmin)){
                     next();
