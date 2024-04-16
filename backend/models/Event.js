@@ -12,7 +12,13 @@ const eventSchema = new mongoose.Schema(
       },
     ],
     content: { type: String, required: true, max:1000 },
-    site: { type: mongoose.Schema.Types.ObjectId, ref: 'Site'}
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    site: { type: mongoose.Schema.Types.ObjectId, ref: 'Site'},
+    status: { 
+      type: String, 
+      enum: ['wait', 'approved', 'rejected'], 
+      default: 'wait' 
+    }
   },
   { timestamps: true }
 );

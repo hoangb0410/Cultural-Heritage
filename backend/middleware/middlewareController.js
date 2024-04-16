@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const Post = require("../models/Post");
-const Site = require("../models/Site")
+const Site = require("../models/Site");
+const Event = require("../models/Event");
 
 const middlewareController = {
     // verify token
@@ -88,6 +89,36 @@ const middlewareController = {
                     return res.status(404).json("Invalid site ID!");
                 }
                 if (site && (site.author.toString() == req.user.id || req.user.isAdmin)){
+                    next();
+                } else {
+                    return res.status(403).json("You do not have permission!");
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(500).json("Server error. Please try again later.");
+            });
+        });
+        } catch (err) {
+        // Handle errors from verifyToken if necessary (already handled in verifyToken)
+        console.error(err);
+        }
+    },
+    // verifyTokenAndAuthorEvent: middleware to restrict event updates to author
+    verifyTokenAndAuthorOrAdminEvent: async (req, res, next) => {
+        try {
+        // Call verifyToken middleware to ensure valid JWT
+        await middlewareController.verifyToken(req, res, () => {
+            // Extract post ID from request parameters
+            const { id } = req.params;
+            // Find the post by ID
+            Event.findById(id)
+            .then((event) => {
+                // Check if post exists and user is the author (or admin)
+                if (!event) {
+                    return res.status(404).json("Invalid site ID!");
+                }
+                if (event && (event.author.toString() == req.user.id || req.user.isAdmin)){
                     next();
                 } else {
                     return res.status(403).json("You do not have permission!");
