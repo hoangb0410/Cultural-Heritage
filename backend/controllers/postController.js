@@ -4,7 +4,7 @@ const postController = {
   // Create Post
   createPost: async (req, res) => {
     try {
-      const {title, content, image} = req.body;
+      const {title, content, image, site} = req.body;
       // Create new Post
       const newPost = new Post({
         title,
@@ -14,7 +14,8 @@ const postController = {
           image_link: img.image_link,
           description: img.description,
         })),
-        author: req.user.id
+        author: req.user.id,
+        site
       });
       const post = await newPost.save();
       res.status(200).json(post);
