@@ -29,6 +29,15 @@ const inquiryController = {
       res.status(500).json(err);
     }
   },
+  // Get inquiry by ID
+  getInquiry: async (req, res) => {
+    try {
+      const inquiry = await Inquiry.findById(req.params.id);
+      res.status(200).json(inquiry);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
   // Update inquiry
   updateInquiry: async (req, res) => {
     try {
