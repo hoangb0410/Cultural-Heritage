@@ -7,11 +7,12 @@ const userController = {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashed = await bcrypt.hash(req.body.password, salt);
-        const {username, email} = req.body;
+        const {username, email, fullname} = req.body;
         //Create new user
         const newUser = await new User({
         username,
         email,
+        fullname,
         password: hashed,
         });
 
@@ -43,19 +44,23 @@ const userController = {
   // Update user
   updateUser: async (req, res) => {
     try {
-      const currentUser = req.user;
       // Validate user ID
       const {id} = req.params;
       if (!id) {
         return res.status(400).json({ message: 'Invalid user ID' });
       }
-      const {username, email, isAdmin} = req.body;
+      const {username, email, fullname, isAdmin} = req.body;
       const updateData = {};
       updateData.username = username;
       updateData.email = email;
+      updateData.fullname = fullname;
       // Only admin can edit isAdmin property
-      if (currentUser.isAdmin){
-        updateData.isAdmin = isAdmin;
+      if (isAdmin) {
+        if (req.user.isAdmin){
+          updateData.isAdmin = isAdmin;
+        } else {
+          return res.status(403).json("Only admin can edit isAdmin");
+        }
       }
       if (req.body.password){
         const salt = await bcrypt.genSalt(10);
