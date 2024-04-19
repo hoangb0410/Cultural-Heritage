@@ -6,18 +6,17 @@ const siteSchema = new mongoose.Schema(
     province_name: { type: String, required: true, max: 50 },
     region: { type: String, required: true, min: 6 },
     address: { type: String, required: true, max: 80 },
-    content: {type: String, required: true, max: 10000},
-    map_diagram: { type: String, max: 80 },
-    image: [
+    content: [
       {
-        image_name: { type: String, required: true },
-        image_link: { type: String, required: true },
-        description: { type: String},
-      },
+        name: { type: String, required: true, max: 80 },
+        desciption: {type: String, required: true, max: 10000}
+      }
     ],
+    map_diagram: { type: String, max: 80 },
+    image_link: { type: String, required: true },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     status: { 
-      type: String, 
+      type: String,
       enum: ['wait', 'approved', 'rejected'],
       default: 'wait' 
     }

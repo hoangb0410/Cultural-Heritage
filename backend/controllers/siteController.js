@@ -1,10 +1,10 @@
 const Site = require("../models/Site");
-
+const User = require("../models/User");
 const siteController = {
   // Create Site
   createSite: async (req, res) => {
     try {
-      const {site_name, province_name, region, address, content, map_diagram, image} = req.body;
+      const {site_name, province_name, region, address, content, map_diagram, image_link} = req.body;
       // Create new Site
       const newSite = new Site({
         site_name,
@@ -13,11 +13,7 @@ const siteController = {
         address,
         content,
         map_diagram,
-        image: image.map((img) => ({
-          image_name: img.image_name,
-          image_link: img.image_link,
-          description: img.description,
-        })),
+        image_link,
         author: req.user.id
       });
       const site = await newSite.save();
@@ -91,6 +87,19 @@ const siteController = {
       res.status(500).json(err);
     }
   },
+  // Add interest site ID to list
+  addSiteToUserInterest: async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      // Add site ID to user's interest list
+      user.interest_site.push(req.params.id);
+      const updatedUser = await user.save();
+      res.status(200).json("Add successful!");
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+    }
+  }
 };
 
 module.exports = siteController;

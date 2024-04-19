@@ -12,5 +12,7 @@ router.get("/:id", siteController.getSite);
 router.put("/update/:id",middlewareController.verifyTokenAndAuthorOrAdminSite, siteController.updateSite);
 // Delete site
 router.delete("/:id",middlewareController.verifyTokenAndAuthorOrAdminSite,siteController.deleteSite);
+// Add Site to favourite
+router.post("/addToInterest/:id",middlewareController.verifyToken, siteController.addSiteToUserInterest);
 
 module.exports = router;
