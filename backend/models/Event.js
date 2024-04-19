@@ -4,13 +4,7 @@ const eventSchema = new mongoose.Schema(
   {
     event_name: { type: String, required: true, max: 100, unique: true },
     event_date: { type: Date, required: true },
-    image: [
-      {
-        image_name: { type: String, required: true },
-        image_link: { type: String, required: true },
-        description: { type: String},
-      },
-    ],
+    image_link: { type: String, required: true },
     content: { type: String, required: true, max:1000 },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     site: { type: mongoose.Schema.Types.ObjectId, ref: 'Site'},

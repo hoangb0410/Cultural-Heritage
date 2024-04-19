@@ -9,11 +9,7 @@ const eventController = {
       const newEvent = new Event({
         event_name,
         event_date,
-        image: image.map((img) => ({
-          image_name: img.image_name,
-          image_link: img.image_link,
-          description: img.description,
-        })),
+        image,
         content,
         author: req.user.id
       });
@@ -55,6 +51,7 @@ const eventController = {
       updateData.event_name = event_name;
       updateData.event_date = event_date;
       updateData.image = image;
+      updateData.content = content;
       updateData.site = site;
       if (status) {
         if (req.user.isAdmin){
