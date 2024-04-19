@@ -7,13 +7,14 @@ const userController = {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashed = await bcrypt.hash(req.body.password, salt);
-        const {username, email, fullname} = req.body;
+        const {username, email, fullname, interest_site, interest_event} = req.body;
         //Create new user
         const newUser = await new User({
         username,
         email,
         fullname,
         interest_site,
+        interest_event,
         password: hashed,
         });
 
@@ -50,12 +51,13 @@ const userController = {
       if (!id) {
         return res.status(400).json({ message: 'Invalid user ID' });
       }
-      const {username, email, fullname, interest_site, isAdmin} = req.body;
+      const {username, email, fullname, interest_site, isAdmin, interest_event} = req.body;
       const updateData = {};
       updateData.username = username;
       updateData.email = email;
       updateData.fullname = fullname;
       updateData.interest_site = interest_site;
+      updateData.interest_event = interest_event;
       // Only admin can edit isAdmin property
       if (isAdmin) {
         if (req.user.isAdmin){
