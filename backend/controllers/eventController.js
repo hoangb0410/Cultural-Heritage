@@ -1,4 +1,5 @@
 const Event = require("../models/Event");
+const User = require("../models/User");
 
 const eventController = {
   // Create Event
@@ -81,6 +82,19 @@ const eventController = {
       res.status(500).json(err);
     }
   },
+  // Add interest event ID to list
+  addSiteToUserInterest: async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      // Add event ID to user's interest list
+      user.interest_event.push(req.params.id);
+      const updatedUser = await user.save();
+      res.status(200).json("Add successful!");
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+    }
+  }
 };
 
 module.exports = eventController;
