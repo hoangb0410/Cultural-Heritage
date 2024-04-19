@@ -83,13 +83,13 @@ const eventController = {
     }
   },
   // Add interest event ID to list
-  addSiteToUserInterest: async (req, res) => {
+  addEventToUserInterest: async (req, res) => {
     try {
       const user = await User.findById(req.user.id);
       // Add event ID to user's interest list
       user.interest_event.push(req.params.id);
       const updatedUser = await user.save();
-      res.status(200).json("Add successful!");
+      res.status(200).json("Add event to favourite successful!");
     } catch (err) {
       res.status(500).json(err);
       console.log(err);

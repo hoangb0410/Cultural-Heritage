@@ -13,5 +13,5 @@ router.put("/update/:id",middlewareController.verifyTokenAndAuthorOrAdminEvent, 
 // Delete event
 router.delete("/:id",middlewareController.verifyTokenAndAuthorOrAdminEvent, eventController.deleteEvent);
 // Add event to favourite
-router.post("/addToInterest/:id",middlewareController.verifyToken, eventController.addSiteToUserInterest);
+router.post("/addToInterest/:id",middlewareController.verifyToken, eventController.addEventToUserInterest);
 module.exports = router;
