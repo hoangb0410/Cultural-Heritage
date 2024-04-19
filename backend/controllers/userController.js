@@ -7,14 +7,12 @@ const userController = {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashed = await bcrypt.hash(req.body.password, salt);
-        const {username, email, fullname, interest_site, interest_event} = req.body;
+        const {username, email, fullname} = req.body;
         //Create new user
         const newUser = await new User({
         username,
         email,
         fullname,
-        interest_site,
-        interest_event,
         password: hashed,
         });
 
