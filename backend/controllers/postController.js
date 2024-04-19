@@ -4,16 +4,12 @@ const postController = {
   // Create Post
   createPost: async (req, res) => {
     try {
-      const {title, content, image, site} = req.body;
+      const {title, content, image_link, site} = req.body;
       // Create new Post
       const newPost = new Post({
         title,
         content,
-        image: image.map((img) => ({
-          image_name: img.image_name,
-          image_link: img.image_link,
-          description: img.description,
-        })),
+        image_link,
         author: req.user.id,
         site
       });
@@ -51,12 +47,12 @@ const postController = {
         return res.status(400).json({ message: 'Invalid post ID' });
       }
 
-      const {title, content, image, author, site, status} = req.body;
+      const {title, content, image_link, author, site, status} = req.body;
 
       const updateData = {};
       updateData.title = title;
       updateData.content = content;
-      updateData.image = image;
+      updateData.image_link = image_link;
       updateData.author = author;
       updateData.site = site;
       if (status) {
