@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, max: 50, unique: true },
     password: { type: String, required: true, min: 6 },
     isAdmin: { type: Boolean, default: false},
-    // posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
+    interest_site: [{type: mongoose.Schema.Types.ObjectId, ref: 'Site'},]
   },
   { timestamps: true }
 );
