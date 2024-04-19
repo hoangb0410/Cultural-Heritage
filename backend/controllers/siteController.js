@@ -94,7 +94,7 @@ const siteController = {
       // Add site ID to user's interest list
       user.interest_site.push(req.params.id);
       const updatedUser = await user.save();
-      res.status(200).json("Add successful!");
+      res.status(200).json("Add site to favourite successful!");
     } catch (err) {
       res.status(500).json(err);
       console.log(err);
