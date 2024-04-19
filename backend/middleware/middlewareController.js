@@ -88,7 +88,7 @@ const middlewareController = {
                 if (!site) {
                     return res.status(404).json("Invalid site ID!");
                 }
-                if (site && (site.author.toString() == req.user.id || req.user.isAdmin)){
+                if (site && (site?.author?.toString() == req.user.id || req.user.isAdmin)){
                     next();
                 } else {
                     return res.status(403).json("You do not have permission!");
@@ -118,7 +118,7 @@ const middlewareController = {
                 if (!event) {
                     return res.status(404).json("Invalid event ID!");
                 }
-                if (event && (event.author.toString() == req.user.id || req.user.isAdmin)){
+                if (event && (event?.author?.toString() == req.user.id || req.user.isAdmin)){
                     next();
                 } else {
                     return res.status(403).json("You do not have permission!");

@@ -4,13 +4,14 @@ const siteController = {
   // Create Site
   createSite: async (req, res) => {
     try {
-      const {site_name, province_name, region, address, map_diagram, image} = req.body;
+      const {site_name, province_name, region, address, content, map_diagram, image} = req.body;
       // Create new Site
       const newSite = new Site({
         site_name,
         province_name,
         region,
         address,
+        content,
         map_diagram,
         image: image.map((img) => ({
           image_name: img.image_name,
@@ -52,12 +53,13 @@ const siteController = {
       if (!id) {
         return res.status(400).json({ message: 'Invalid site ID' });
       }
-      const {site_name, province_name, region, address, map_diagram, image, status} = req.body;
+      const {site_name, province_name, region, address, content, map_diagram, image, status} = req.body;
       const updateData = {};
       updateData.site_name = site_name;
       updateData.province_name = province_name;
       updateData.region = region;
       updateData.address = address;
+      updateData.content = content;
       updateData.map_diagram = map_diagram;
       updateData.image = image;
       if (status) {
