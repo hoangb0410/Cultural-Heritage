@@ -13,6 +13,7 @@ const userController = {
         username,
         email,
         fullname,
+        interest_site,
         password: hashed,
         });
 
@@ -49,11 +50,12 @@ const userController = {
       if (!id) {
         return res.status(400).json({ message: 'Invalid user ID' });
       }
-      const {username, email, fullname, isAdmin} = req.body;
+      const {username, email, fullname, interest_site, isAdmin} = req.body;
       const updateData = {};
       updateData.username = username;
       updateData.email = email;
       updateData.fullname = fullname;
+      updateData.interest_site = interest_site;
       // Only admin can edit isAdmin property
       if (isAdmin) {
         if (req.user.isAdmin){
