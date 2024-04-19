@@ -9,7 +9,7 @@ const siteSchema = new mongoose.Schema(
     content: [
       {
         name: { type: String, required: true, max: 80 },
-        desciption: {type: String, required: true, max: 10000}
+        description: {type: String, required: true, max: 10000}
       }
     ],
     map_diagram: { type: String, max: 80 },
