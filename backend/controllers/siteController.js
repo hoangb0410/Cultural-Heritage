@@ -109,6 +109,30 @@ const siteController = {
       console.log(err);
     }
   },
+  // Add more content to site
+  addContent: async (req, res ) => {
+    try {
+      const {name, description} = req.body;
+      const addContent ={};
+      addContent.name = name;
+      addContent.description = description;
+      const site = await Site.findById(req.params.id);
+      if (!addContent || !addContent.name || !addContent.description) {
+        return res.status(400).json("Missing required content properties (name, description)");
+      }
+      // Check if the site exists before accessing properties
+      if (!site) {
+        return res.status(404).json("Site not found!");
+      }
+      // Add site ID to user's interest list
+      site.content.push(addContent);
+      const updatedSite = await site.save();
+      res.status(200).json("Add content successfully");
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+    }
+  },
   // Delete site
   deleteSite: async (req, res) => {
     try {

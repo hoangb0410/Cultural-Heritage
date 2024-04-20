@@ -12,6 +12,8 @@ router.get("/:id", siteController.getSite);
 router.get("/XML/:id", siteController.getXMLSite);
 // Update site
 router.put("/update/:id",middlewareController.verifyTokenAndAuthorOrAdminSite, siteController.updateSite);
+// Add more content
+router.put("/addContent/:id",middlewareController.verifyTokenAndAuthorOrAdminSite, siteController.addContent);
 // Delete site
 router.delete("/:id",middlewareController.verifyTokenAndAuthorOrAdminSite,siteController.deleteSite);
 // Add Site to favourite
