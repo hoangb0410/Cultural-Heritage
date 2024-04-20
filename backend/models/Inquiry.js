@@ -8,8 +8,8 @@ const inquirySchema = new mongoose.Schema(
     content: { type: String, required: true, max:1000 },
     status: {
       type: String, 
-      enum: ['wait', 'viewed'],
-      default: "wait"
+      enum: ['pending', 'viewed'],
+      default: 'pending'
     }
   },
   { timestamps: true }
