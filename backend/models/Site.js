@@ -17,8 +17,8 @@ const siteSchema = new mongoose.Schema(
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     status: { 
       type: String,
-      enum: ['wait', 'approved', 'rejected'],
-      default: 'wait' 
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending' 
     }
   },
   { timestamps: true }

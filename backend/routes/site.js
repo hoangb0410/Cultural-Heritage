@@ -8,6 +8,8 @@ router.post("/createSite", middlewareController.verifyToken, siteController.crea
 router.get("/", siteController.getAllSites);
 // Get site by ID
 router.get("/:id", siteController.getSite);
+// Get XML site by ID 
+router.get("/XML/:id", siteController.getXMLSite);
 // Update site
 router.put("/update/:id",middlewareController.verifyTokenAndAuthorOrAdminSite, siteController.updateSite);
 // Delete site

@@ -1,5 +1,6 @@
 const Site = require("../models/Site");
 const User = require("../models/User");
+const xml2js = require('xml2js');
 const siteController = {
   // Create Site
   createSite: async (req, res) => {
@@ -39,6 +40,36 @@ const siteController = {
       res.status(200).json(site);
     } catch (err) {
       res.status(500).json(err);
+    }
+  },
+  // Get XML site by ID
+  getXMLSite: async (req, res) => {
+    try {
+      const site = await Site.findById(req.params.id);
+      const xmlObject = {
+        note: {
+            name: site.site_name,
+            location: site.address,
+            content: {
+              attr: site.content.map(content => ({
+                _: content.description,
+                $: {
+                  name: content.name
+                }
+              }))
+            },
+            source: site.map_diagram,
+            img: site.image_link
+        }
+    };
+      const builder = new xml2js.Builder();
+      const xml = builder.buildObject(xmlObject);
+      res.set('Content-Type', 'text/xml');
+      res.send(xml);
+      
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
     }
   },
   // Update site
