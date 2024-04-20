@@ -5,12 +5,12 @@ const eventController = {
   // Create Event
   createEvent: async (req, res) => {
     try {
-      const {event_name, event_date, image, content} = req.body;
+      const {event_name, event_date, image_link, content} = req.body;
       // Create new Post
       const newEvent = new Event({
         event_name,
         event_date,
-        image,
+        image_link,
         content,
         author: req.user.id
       });
@@ -47,11 +47,11 @@ const eventController = {
       if (!id) {
         return res.status(400).json({ message: 'Invalid event ID' });
       }
-      const {event_name, event_date, image, content, site, status} = req.body;
+      const {event_name, event_date, image_link, content, site, status} = req.body;
       const updateData = {};
       updateData.event_name = event_name;
       updateData.event_date = event_date;
-      updateData.image = image;
+      updateData.image_link = image_link;
       updateData.content = content;
       updateData.site = site;
       if (status) {
