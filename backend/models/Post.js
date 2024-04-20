@@ -9,8 +9,8 @@ const postSchema = new mongoose.Schema(
     site: { type: mongoose.Schema.Types.ObjectId, ref: 'Site'},
     status: { 
       type: String, 
-      enum: ['wait', 'approved', 'rejected'], 
-      default: 'wait' 
+      enum: ['pending', 'approved', 'rejected'], 
+      default: 'pending' 
     }
   },
   { timestamps: true }
