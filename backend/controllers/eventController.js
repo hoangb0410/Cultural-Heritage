@@ -5,14 +5,14 @@ const eventController = {
   // Create Event
   createEvent: async (req, res) => {
     try {
-      const {event_name, event_date, image_link, content} = req.body;
-      // Create new Post
+      const { event_name, event_date, image_link, content } = req.body;
+      // Create new event
       const newEvent = new Event({
         event_name,
         event_date,
         image_link,
         content,
-        author: req.user.id
+        author: req.user.id,
       });
       const event = await newEvent.save();
       res.status(200).json(event);
@@ -24,7 +24,7 @@ const eventController = {
   // Get all events
   getAllEvents: async (req, res) => {
     try {
-      const event = await Event.find();
+      const event = await Event.find().sort({ createdAt: -1 });
       res.status(200).json(event);
     } catch (err) {
       res.status(500).json(err);
@@ -43,11 +43,12 @@ const eventController = {
   updateEvent: async (req, res) => {
     try {
       // Validate event ID
-      const {id} = req.params;
+      const { id } = req.params;
       if (!id) {
-        return res.status(400).json({ message: 'Invalid event ID' });
+        return res.status(400).json({ message: "Invalid event ID" });
       }
-      const {event_name, event_date, image_link, content, site, status} = req.body;
+      const { event_name, event_date, image_link, content, site, status } =
+        req.body;
       const updateData = {};
       updateData.event_name = event_name;
       updateData.event_date = event_date;
@@ -55,14 +56,18 @@ const eventController = {
       updateData.content = content;
       updateData.site = site;
       if (status) {
-        if (req.user.isAdmin){
+        if (req.user.isAdmin) {
           updateData.status = status;
         } else {
           return res.status(403).json("Only admin can edit status");
         }
       }
       // Update event in the database
-      const updatedEvent = await Event.findByIdAndUpdate(id, { $set: updateData }, { new: true });
+      const updatedEvent = await Event.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true }
+      );
       // Check if the event was found and updated
       if (!updatedEvent) {
         return res.status(404).json({ message: "Event not found" });
@@ -73,7 +78,7 @@ const eventController = {
       console.log(err);
     }
   },
-  // Delete post
+  // Delete event
   deleteEvent: async (req, res) => {
     try {
       const event = await Event.findByIdAndDelete(req.params.id);
@@ -94,7 +99,7 @@ const eventController = {
       res.status(500).json(err);
       console.log(err);
     }
-  }
+  },
 };
 
 module.exports = eventController;

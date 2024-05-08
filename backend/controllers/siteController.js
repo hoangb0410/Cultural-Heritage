@@ -1,11 +1,19 @@
 const Site = require("../models/Site");
 const User = require("../models/User");
-const xml2js = require('xml2js');
+const xml2js = require("xml2js");
 const siteController = {
   // Create Site
   createSite: async (req, res) => {
     try {
-      const {site_name, province_name, region, address, content, map_diagram, image_link} = req.body;
+      const {
+        site_name,
+        province_name,
+        region,
+        address,
+        content,
+        map_diagram,
+        image_link,
+      } = req.body;
       // Create new Site
       const newSite = new Site({
         site_name,
@@ -15,7 +23,7 @@ const siteController = {
         content,
         map_diagram,
         image_link,
-        author: req.user.id
+        author: req.user.id,
       });
       const site = await newSite.save();
       res.status(200).json(site);
@@ -27,7 +35,7 @@ const siteController = {
   // Get all sites
   getAllSites: async (req, res) => {
     try {
-      const site = await Site.find();
+      const site = await Site.find().sort({ createdAt: -1 });
       res.status(200).json(site);
     } catch (err) {
       res.status(500).json(err);
@@ -48,25 +56,24 @@ const siteController = {
       const site = await Site.findById(req.params.id);
       const xmlObject = {
         note: {
-            name: site.site_name,
-            location: site.address,
-            content: {
-              attr: site.content.map(content => ({
-                _: content.description,
-                $: {
-                  name: content.name
-                }
-              }))
-            },
-            source: site.map_diagram,
-            img: site.image_link
-        }
-    };
+          name: site.site_name,
+          location: site.address,
+          content: {
+            attr: site.content.map((content) => ({
+              _: content.description,
+              $: {
+                name: content.name,
+              },
+            })),
+          },
+          source: site.map_diagram,
+          img: site.image_link,
+        },
+      };
       const builder = new xml2js.Builder();
       const xml = builder.buildObject(xmlObject);
-      res.set('Content-Type', 'text/xml');
+      res.set("Content-Type", "text/xml");
       res.send(xml);
-      
     } catch (err) {
       res.status(500).json(err);
       console.log(err);
@@ -76,11 +83,20 @@ const siteController = {
   updateSite: async (req, res) => {
     try {
       // Validate site ID
-      const {id} = req.params;
+      const { id } = req.params;
       if (!id) {
-        return res.status(400).json({ message: 'Invalid site ID' });
+        return res.status(400).json({ message: "Invalid site ID" });
       }
-      const {site_name, province_name, region, address, content, map_diagram, image, status} = req.body;
+      const {
+        site_name,
+        province_name,
+        region,
+        address,
+        content,
+        map_diagram,
+        image,
+        status,
+      } = req.body;
       const updateData = {};
       updateData.site_name = site_name;
       updateData.province_name = province_name;
@@ -90,7 +106,7 @@ const siteController = {
       updateData.map_diagram = map_diagram;
       updateData.image = image;
       if (status) {
-        if (req.user.isAdmin){
+        if (req.user.isAdmin) {
           updateData.status = status;
         } else {
           return res.status(403).json("Only admin can edit status");
@@ -98,7 +114,11 @@ const siteController = {
       }
 
       // Update user in the database
-      const updatedSite = await Site.findByIdAndUpdate(id, { $set: updateData }, { new: true });
+      const updatedSite = await Site.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true }
+      );
       // Check if the user was found and updated
       if (!updatedSite) {
         return res.status(404).json({ message: "Site not found" });
@@ -110,15 +130,17 @@ const siteController = {
     }
   },
   // Add more content to site
-  addContent: async (req, res ) => {
+  addContent: async (req, res) => {
     try {
-      const {name, description} = req.body;
-      const addContent ={};
+      const { name, description } = req.body;
+      const addContent = {};
       addContent.name = name;
       addContent.description = description;
       const site = await Site.findById(req.params.id);
       if (!addContent || !addContent.name || !addContent.description) {
-        return res.status(400).json("Missing required content properties (name, description)");
+        return res
+          .status(400)
+          .json("Missing required content properties (name, description)");
       }
       // Check if the site exists before accessing properties
       if (!site) {
@@ -154,7 +176,7 @@ const siteController = {
       res.status(500).json(err);
       console.log(err);
     }
-  }
+  },
 };
 
 module.exports = siteController;

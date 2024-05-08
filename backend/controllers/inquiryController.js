@@ -4,13 +4,13 @@ const inquiryController = {
   // Create Inquiry
   createInquiry: async (req, res) => {
     try {
-      const {name, email, subject, content} = req.body;
+      const { name, email, subject, content } = req.body;
       // Create new Inquiry
       const newInquiry = new Inquiry({
         name,
         email,
         subject,
-        content
+        content,
       });
       const inquiry = await newInquiry.save();
       res.status(200).json(inquiry);
@@ -22,7 +22,7 @@ const inquiryController = {
   // Get all inquiries
   getAllInquiries: async (req, res) => {
     try {
-      const inquiry = await Inquiry.find();
+      const inquiry = await Inquiry.find().sort({ createdAt: -1 });
       res.status(200).json(inquiry);
     } catch (err) {
       res.status(500).json(err);
@@ -41,13 +41,17 @@ const inquiryController = {
   updateInquiry: async (req, res) => {
     try {
       // Validate inquiry ID
-      const {id} = req.params;
+      const { id } = req.params;
       if (!id) {
-        return res.status(400).json({ message: 'Invalid inquiry ID' });
+        return res.status(400).json({ message: "Invalid inquiry ID" });
       }
       const updateData = req.body;
       // Update inquiry in the database
-      const updatedInquiry = await Inquiry.findByIdAndUpdate(id, { $set: updateData }, { new: true });
+      const updatedInquiry = await Inquiry.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true }
+      );
       // Check if the inquiry was found and updated
       if (!updatedInquiry) {
         return res.status(404).json({ message: "Inquiry not found" });

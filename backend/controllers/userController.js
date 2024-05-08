@@ -5,28 +5,28 @@ const userController = {
   //Register
   registerUser: async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt(10);
-        const hashed = await bcrypt.hash(req.body.password, salt);
-        const {username, email, fullname} = req.body;
-        //Create new user
-        const newUser = await new User({
+      const salt = await bcrypt.genSalt(10);
+      const hashed = await bcrypt.hash(req.body.password, salt);
+      const { username, email, fullname } = req.body;
+      //Create new user
+      const newUser = await new User({
         username,
         email,
         fullname,
         password: hashed,
-        });
+      });
 
-        //Save user to DB
-        const user = await newUser.save();
-        res.status(200).json(user);
+      //Save user to DB
+      const user = await newUser.save();
+      res.status(200).json(user);
     } catch (err) {
-        res.status(500).json(err);
+      res.status(500).json(err);
     }
-    },
+  },
   // Get all users
   getAllUsers: async (req, res) => {
     try {
-      const user = await User.find();
+      const user = await User.find().sort({ createdAt: -1 });
       res.status(200).json(user);
     } catch (err) {
       res.status(500).json(err);
@@ -45,11 +45,18 @@ const userController = {
   updateUser: async (req, res) => {
     try {
       // Validate user ID
-      const {id} = req.params;
+      const { id } = req.params;
       if (!id) {
-        return res.status(400).json({ message: 'Invalid user ID' });
+        return res.status(400).json({ message: "Invalid user ID" });
       }
-      const {username, email, fullname, interest_site, isAdmin, interest_event} = req.body;
+      const {
+        username,
+        email,
+        fullname,
+        interest_site,
+        isAdmin,
+        interest_event,
+      } = req.body;
       const updateData = {};
       updateData.username = username;
       updateData.email = email;
@@ -58,19 +65,23 @@ const userController = {
       updateData.interest_event = interest_event;
       // Only admin can edit isAdmin property
       if (isAdmin) {
-        if (req.user.isAdmin){
+        if (req.user.isAdmin) {
           updateData.isAdmin = isAdmin;
         } else {
           return res.status(403).json("Only admin can edit isAdmin");
         }
       }
-      if (req.body.password){
+      if (req.body.password) {
         const salt = await bcrypt.genSalt(10);
         const hashed = await bcrypt.hash(req.body.password, salt);
         updateData.password = hashed;
       }
       // Update user in the database
-      const updatedUser = await User.findByIdAndUpdate(id, { $set: updateData }, { new: true });
+      const updatedUser = await User.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true }
+      );
       // Check if the user was found and updated
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
