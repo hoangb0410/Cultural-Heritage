@@ -53,15 +53,15 @@ const userController = {
         username,
         email,
         fullname,
-        interest_site,
-        isAdmin,
+        interest_heritage,
         interest_event,
+        isAdmin,
       } = req.body;
       const updateData = {};
       updateData.username = username;
       updateData.email = email;
       updateData.fullname = fullname;
-      updateData.interest_site = interest_site;
+      updateData.interest_heritage = interest_heritage;
       updateData.interest_event = interest_event;
       // Only admin can edit isAdmin property
       if (isAdmin) {

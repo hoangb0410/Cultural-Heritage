@@ -6,8 +6,7 @@ const cookieParser = require("cookie-parser");
 
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
-const siteRoute = require("./routes/site");
-const postRoute = require("./routes/post");
+const heritageRoute = require("./routes/heritage");
 const eventRoute = require("./routes/event");
 const inquiryRoute = require("./routes/inquiry");
 const app = express();
@@ -27,8 +26,7 @@ app.use(express.json());
 // Routes
 app.use("/v1/auth", authRoute);
 app.use("/v1/user", userRoute);
-app.use("/v1/site", siteRoute);
-app.use("/v1/post", postRoute);
+app.use("/v1/heritage", heritageRoute);
 app.use("/v1/event", eventRoute);
 app.use("/v1/inquiry", inquiryRoute);
 app.listen(8000, () => {

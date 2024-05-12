@@ -5,14 +5,23 @@ const eventController = {
   // Create Event
   createEvent: async (req, res) => {
     try {
-      const { event_name, event_date, image_link, content } = req.body;
+      const {
+        event_name,
+        event_date,
+        content,
+        image_link,
+        video_link,
+        heritage,
+      } = req.body;
       // Create new event
       const newEvent = new Event({
         event_name,
         event_date,
-        image_link,
         content,
+        image_link,
+        video_link,
         author: req.user.id,
+        heritage,
       });
       const event = await newEvent.save();
       res.status(200).json(event);
@@ -47,14 +56,22 @@ const eventController = {
       if (!id) {
         return res.status(400).json({ message: "Invalid event ID" });
       }
-      const { event_name, event_date, image_link, content, site, status } =
-        req.body;
+      const {
+        event_name,
+        event_date,
+        content,
+        image_link,
+        video_link,
+        heritage,
+        status,
+      } = req.body;
       const updateData = {};
       updateData.event_name = event_name;
       updateData.event_date = event_date;
       updateData.image_link = image_link;
+      updateData.video_link = video_link;
       updateData.content = content;
-      updateData.site = site;
+      updateData.heritage = heritage;
       if (status) {
         if (req.user.isAdmin) {
           updateData.status = status;
@@ -95,6 +112,21 @@ const eventController = {
       user.interest_event.push(req.params.id);
       const updatedUser = await user.save();
       res.status(200).json("Add event to favourite successful!");
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+    }
+  },
+  // Remove event ID from user interest list
+  removeHeritageFromUserInterest: async (req, res) => {
+    try {
+      // Remove event ID from user's interest list
+      const user = await User.findByIdAndUpdate(
+        req.user.id,
+        { $pull: { interest_event: req.params.id } }, // Use $pull operator
+        { new: true }
+      );
+      res.status(200).json("Remove heritage from favourite successful!");
     } catch (err) {
       res.status(500).json(err);
       console.log(err);
