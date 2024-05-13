@@ -101,9 +101,13 @@ const heritageController = {
         province_name,
         region,
         address,
+        category,
+        type,
         content,
+        image_link,
+        video_link,
         map_diagram,
-        image,
+        source,
         status,
       } = req.body;
       const updateData = {};
@@ -111,9 +115,13 @@ const heritageController = {
       updateData.province_name = province_name;
       updateData.region = region;
       updateData.address = address;
+      updateData.category = category;
+      updateData.type = type;
       updateData.content = content;
+      updateData.image_link = image_link;
+      updateData.video_link = video_link;
       updateData.map_diagram = map_diagram;
-      updateData.image = image;
+      updateData.source = source;
       if (status) {
         if (req.user.isAdmin) {
           updateData.status = status;
