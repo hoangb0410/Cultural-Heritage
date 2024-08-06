@@ -6,8 +6,13 @@ const userController = {
   registerUser: async (req, res) => {
     try {
       const salt = await bcrypt.genSalt(10);
-      const hashed = await bcrypt.hash(req.body.password, salt);
+      const tPassword = req.body.password;
       const { username, email, fullname } = req.body;
+
+      if (!username || !email || !fullname || !tPassword) {
+        return res.status(400).json("missing information");
+      }
+      const hashed = await bcrypt.hash(req.body.password, salt);
       //Create new user
       const newUser = await new User({
         username,
@@ -15,12 +20,11 @@ const userController = {
         fullname,
         password: hashed,
       });
-
       //Save user to DB
       const user = await newUser.save();
-      res.status(200).json(user);
+      return res.status(200).json(user);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json("Server error");
     }
   },
   // Get all users
