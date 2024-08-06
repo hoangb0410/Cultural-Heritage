@@ -14,9 +14,7 @@ test("Login link", async ({ page }) => {
   await page.getByRole("link", { name: "Đăng nhập" }).click();
 
   // Expects page to have a heading with the name of ...
-  await expect(
-    page.getByRole("heading", { name: "Xin chào. Hãy đăng nhập để bắt đầu." })
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Xin chào. Hãy đăng nhập để bắt đầu." })).toBeVisible();
 });
 
 test("SignUp link", async ({ page }) => {
